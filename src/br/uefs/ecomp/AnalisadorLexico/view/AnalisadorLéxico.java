@@ -24,10 +24,7 @@ public class AnalisadorLéxico {
         AnalisadorLexicoController controller = new AnalisadorLexicoController();
         
         try{
-            List<String> arq = Files.readAllLines(Paths.get("arquivos_de_entrada\\entrada_exemplo_teste_lexico.txt"), StandardCharsets.UTF_8);
             String text = new String(Files.readAllBytes(Paths.get("arquivos_de_entrada\\entrada_exemplo_teste_lexico.txt")), StandardCharsets.UTF_8);
-           // FileReader arq = new FileReader("arquivos_de_entrada\\entrada_exemplo_teste_lexico.txt");
-          //  BufferedReader readArq = new BufferedReader(arq);
             System.out.printf("%s", text);
         } catch (IOException e) {
              System.err.printf("Erro na abertura do arquivo: %s.\n",e.getMessage());
