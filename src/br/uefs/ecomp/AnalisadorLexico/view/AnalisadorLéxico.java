@@ -2,9 +2,11 @@ package br.uefs.ecomp.AnalisadorLexico.view;
 
 import br.uefs.ecomp.AnalisadorLexico.controller.AnalisadorLexicoController;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.nio.file.Files;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.util.List;
  
 
 /**
@@ -22,17 +24,8 @@ public class AnalisadorLéxico {
         AnalisadorLexicoController controller = new AnalisadorLexicoController();
         
         try{
-            FileReader arq = new FileReader("arquivos_de_entrada\\entrada_exemplo_teste_lexico.txt");
-            BufferedReader readArq = new BufferedReader(arq);
- 
-            String linha = readArq.readLine();
-            
-            while(linha != null){
-                System.out.printf("%s\n", linha);
-                
- 
-                linha = readArq.readLine();
-            }
+            String text = new String(Files.readAllBytes(Paths.get("arquivos_de_entrada\\entrada_exemplo_teste_lexico.txt")), StandardCharsets.UTF_8);
+            System.out.printf("%s", text);
         } catch (IOException e) {
              System.err.printf("Erro na abertura do arquivo: %s.\n",e.getMessage());
         }
