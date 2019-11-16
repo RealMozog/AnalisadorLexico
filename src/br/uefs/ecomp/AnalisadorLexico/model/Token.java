@@ -7,10 +7,11 @@ package br.uefs.ecomp.AnalisadorLexico.model;
 public class Token {
     private String codigo;
     private String lexema;
+    private int line;
     
-    public Token(String codigo, String lexema){
-        this.codigo = codigo;
+    public Token(String lexema, int line){
         this.lexema = lexema;
+        this.line = line;
     }
 
     public void setCodigo(String codigo) {
@@ -19,11 +20,11 @@ public class Token {
 
     @Override
     public String toString() {
-        return "< " + codigo + ", " + lexema + " >";
+        return "< " + line + ": " + codigo + ", " + lexema + " >";
     }
 
-    public void setLexema(String lexema) {
-        this.lexema = lexema;
+    public void setLexema(Character c) {
+        this.lexema = lexema += c.toString();
     }
 
     public String getCodigo() {

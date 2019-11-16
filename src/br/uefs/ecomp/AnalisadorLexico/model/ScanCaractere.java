@@ -22,33 +22,41 @@ public class ScanCaractere {
         };
     }
     
-    public boolean isLetter(CharSequence caractere){
-        return this.letras.contains(caractere);
+    public boolean isLetter(Character c){
+        return c != null ? this.letras.contains(c.toString()) : false;
     }
     
-    public boolean isDigit(CharSequence caractere){
-        return this.digito.contains(caractere);
+    public boolean isDigit(Character c){
+        return c != null ? this.digito.contains(c.toString()) : false;
     }
     
-    public boolean isValidSymbol(int code){
-        return (code != 34) || (code >= 32 && code <= 126) ;
+    public boolean isValidSymbol(Character c){
+        return c != null ? ((int)c != 34) || ((int)c >= 32 && (int)c <= 126) : false ;
+    }
+    
+    public boolean isSpace (Character c){
+        return c != null ? (int)c == 9 || (int)c == 32 : false;
+    }
+    
+    public boolean isLineFeed (Character c){
+        return c != null ? (int)c == 10 || (int)c == 13 : false;
     }
     
     public boolean isReservedWords (String word){
         List<String> words = Arrays.asList(this.palavras_reservadas);
         
-        return words.contains(word);
+        return word != null ?  words.contains(word) : false;
     }
     
-    public boolean isCharOfOpAritmetico (CharSequence caractere){
-        return this.op_aritmetico.contains(caractere);
+    public boolean isCharOfOpAritmetico (Character c){
+        return c != null ? this.op_aritmetico.contains(c.toString()) : false;
     }
     
-    public boolean isCharOfOpRelacional (CharSequence caractere){
-        return this.op_relacional.contains(caractere);
+    public boolean isCharOfOpRelacional (Character c){
+        return c != null ? this.op_relacional.contains(c.toString()) : false;
     }
     
-    public boolean delimitador (CharSequence caractere){
-        return this.delimitador.contains(caractere);
+    public boolean delimitador (Character c){
+        return c != null ? this.delimitador.contains(c.toString()) : false;
     }
 }

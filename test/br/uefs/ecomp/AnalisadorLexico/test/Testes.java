@@ -23,29 +23,38 @@ public class Testes {
     }
     
     @Test
-    public void testLerLetras (){
+    public void stringContains (){
         alpha = "abcdefghijklmnopkrstuvxzABCDEFGHIJKLMOPQRSTUVXZ";
         
         for (int i = 0; i < alpha.length(); i++){
-            String c = Character.toString(alpha.charAt(i));
+            Character c = (alpha.charAt(i));
             
             assertTrue(scan.isLetter(c));
         }
     }
     
     @Test
-    public void isValidSymbol (){
+    public void charcodeFromChar (){
         alpha = "jhjda$%#$´~.";
+        Character c;
         
         for (int i = 0; i < alpha.length(); i++){
-            int charCode = (int)alpha.charAt(i);
+            c = alpha.charAt(i);
             
-            assertTrue(scan.isValidSymbol(charCode));
+            assertTrue(scan.isValidSymbol(c));
         }
+        
+        Character alpha = '\n';
+        
+        assertTrue(scan.isLineFeed(alpha));
+        
+        alpha ='"';
+        
+        assertTrue(scan.isValidSymbol(alpha));
     }
     
     @Test
-    public void isPalavraReservada (){
+    public void listContains (){
         alpha = "var";
         
         assertTrue(scan.isReservedWords(alpha));
