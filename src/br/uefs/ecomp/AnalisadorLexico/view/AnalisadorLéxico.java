@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.List;
  
 
 /**
@@ -24,11 +23,12 @@ public class AnalisadorLéxico {
         AnalisadorLexicoController controller = new AnalisadorLexicoController();
         
         try{
-            String text = new String(Files.readAllBytes(Paths.get("arquivos_de_entrada\\entrada_exemplo_teste_lexico.txt")), StandardCharsets.UTF_8);
-            System.out.printf("%s", text);
+            String text = new String(Files.readAllBytes(Paths.get("input\\entrada_exemplo_teste_lexico.txt")), StandardCharsets.UTF_8);
+            controller.analiseArq(text);
         } catch (IOException e) {
              System.err.printf("Erro na abertura do arquivo: %s.\n",e.getMessage());
         }
+        
     }
     
 }

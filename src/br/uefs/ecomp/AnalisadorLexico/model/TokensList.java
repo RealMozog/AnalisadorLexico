@@ -1,12 +1,12 @@
 package br.uefs.ecomp.AnalisadorLexico.model;
 
-import java.util.HashMap;
+import br.uefs.ecomp.AnalisadorLexico.model.Token;
 import java.util.Map;
-
+import java.util.HashMap;
 /**
  *
  * @author sandr
  */
-public class SimbolsTable {
+public class TokensList {
     
 }
