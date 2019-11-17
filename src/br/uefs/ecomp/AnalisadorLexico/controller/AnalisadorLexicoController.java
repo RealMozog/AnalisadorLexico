@@ -12,7 +12,7 @@ public class AnalisadorLexicoController {
     public void analiseArq(String path){
         this.automato = new TokensGenerator();
         
-        this.automato.setText("-   1.  12.56");
+        this.automato.setText("+*/ + ++  12.lb uti\n beijos /* amor \n */");
         
         this.automato.stateZero(this.automato.nextChar());
     }

@@ -67,23 +67,35 @@ public class TokensGenerator {
                 stateZero(nextChar());
             } else
                 if(c.equals('"')){
-                    stateOne(c);
+                    automatoCadeiaCaractere(c);
             } else
-                if(c.equals('/') && (lookahead('/') || lookahead('*'))) {
-                    stateTwo(c);
+                if(c.equals('/')) {
+                    if(lookahead('/') || lookahead('*')){
+                        automatoComentario(c);
+                    } else {
+                        automatoOpAritmetico(c);
+                    }
+                    
             } else
                 if(scan.isLetter(c)){
-                    stateThree(c);
+                    automatoIdentificador(c);
             } else
                 if(scan.isDigit(c) || c.equals('-')){
-                    stateFour(c);
-                }
+                    if(c.equals('-') && lookahead('-')){
+                        automatoOpAritmetico(c);
+                    } else {
+                        automatoNumero(c);
+                    }
+            } else 
+                if (c.equals('*') || c.equals('+')){
+                    automatoOpAritmetico(c);
+            }
         }
  
     }
     
     // Cadeia de caracteres !!
-    private void stateOne (Character c){
+    private void automatoCadeiaCaractere (Character c){
         Token token = new Token(c.toString(), this.line);
         this.tokenError.setLine(this.line);
         
@@ -136,51 +148,48 @@ public class TokensGenerator {
             stateZero (nextChar ());
         }
     }
+    
      // comentarios!!
-    private void stateTwo (Character c){
+    private void automatoComentario (Character c){
         Token token = new Token(c.toString(), this.line);
         this.tokenError.setLine(this.line);
         
         this.text = this.text.substring(1);
         c = nextChar();
         
-        if(c != null){
-            if(c.equals('/')){
-                while (!scan.isLineFeed(c)){
-                    this.text = this.text.substring(1);
-                    if(this.text.isEmpty()){
-                        break;
-                    }
-                    
-                    c = nextChar();
-                }
+        if(c.equals('/')){
+            while (!scan.isLineFeed(c)){
                 this.text = this.text.substring(1);
-                stateZero (nextChar ());
-            } else {
-                while (!this.text.isEmpty()){
-                    token.setLexema(c);
-                    this.text = this.text.substring(1);
-                    if(this.text.isEmpty()){
-                        token.setLexema(c);
-                        this.tokenError.setCodigo(codigosErro.COMF.toString());
-                        this.tokenError.setMal_formed_lexema(token.getLexema());
-                        System.out.print(this.tokenError.toString()+ '\n');
-                        break;
-                    }
-                    c = nextChar();
-                    
-                    if(c.equals('*') && lookahead('/')){
-                        this.text = this.text.substring(2);
-                        break;
-                    }
+                if(this.text.isEmpty()){
+                    break;
                 }
-                stateZero (nextChar ());
+
+                c = nextChar();
             }
+            stateZero (nextChar());
+        } else {
+            while (!this.text.isEmpty()){
+                token.setLexema(c);
+                this.text = this.text.substring(1);
+                if(this.text.isEmpty()){
+                    this.tokenError.setCodigo(codigosErro.COMF.toString());
+                    this.tokenError.setMal_formed_lexema(token.getLexema());
+                    System.out.print(this.tokenError.toString()+ '\n');
+                    break;
+                }
+                c = nextChar();
+
+                if(c.equals('*') && lookahead('/')){
+                    this.text = this.text.substring(2);
+                    break;
+                }
+            }
+            stateZero (nextChar ());
         }
     }
     
     // identificadores e palavras reservadas!!
-    private void stateThree (Character c){
+    private void automatoIdentificador (Character c){
         Token token = new Token(c.toString(), this.line);
         this.tokenError.setLine(this.line);
         
@@ -235,7 +244,7 @@ public class TokensGenerator {
     }
     
     // numeros!!
-    private void stateFour(Character c){
+    private void automatoNumero(Character c){
         Token token = new Token(c.toString(), this.line);
         this.tokenError.setLine(this.line);
         
@@ -376,5 +385,33 @@ public class TokensGenerator {
                 stateZero (c);
             }
         }
+    }
+    
+    // operador aritmetico
+    private void automatoOpAritmetico(Character c){
+        Token token = new Token(c.toString(), this.line);
+        this.tokenError.setLine(this.line);
+        
+        if(c.equals('-') && lookahead('-')){
+            this.text = this.text.substring(1);
+            c = nextChar();
+            token.setLexema(c);
+            this.text = this.text.substring(1);
+        } else 
+            if(c.equals('+') && lookahead('+')){
+                this.text = this.text.substring(1);
+                c = nextChar();
+                token.setLexema(c);
+                this.text = this.text.substring(1);
+        } else
+            if(c.equals('/') || c.equals('*')){
+            this.text = this.text.substring(1);
+        } else {
+            this.text = this.text.substring(1);
+        }
+
+        token.setCodigo(codigos.ART.toString());
+        System.out.print(token.toString()+ '\n');
+        stateZero (nextChar());
     }
 }
