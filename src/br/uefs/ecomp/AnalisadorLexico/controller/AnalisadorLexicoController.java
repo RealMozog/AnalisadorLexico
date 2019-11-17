@@ -12,7 +12,7 @@ public class AnalisadorLexicoController {
     public void analiseArq(String path){
         this.automato = new TokensGenerator();
         
-        this.automato.setText(path);
+        this.automato.setText("arroz     \n");
         
         this.automato.stateZero(this.automato.nextChar());
     }

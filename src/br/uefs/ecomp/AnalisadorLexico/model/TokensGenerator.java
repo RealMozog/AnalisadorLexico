@@ -18,7 +18,7 @@ public class TokensGenerator {
     }
     
     private enum codigosErro {
-        CMF, COMF;
+        CMF, COMF, IDEMF;
     }
 
     public TokensGenerator() {
@@ -63,11 +63,17 @@ public class TokensGenerator {
                     c = nextChar();
                 }
             }
-            if(c.equals('"')){
-                stateOne(c);
-            }
-            if(c.equals('/') && (lookahead('/') || lookahead('*'))) {
-                stateTwo(c);
+            if(this.text.isEmpty()){
+                stateZero(nextChar());
+            } else
+                if(c.equals('"')){
+                    stateOne(c);
+            } else
+                if(c.equals('/') && (lookahead('/') || lookahead('*'))) {
+                    stateTwo(c);
+            } else
+                if(scan.isLetter(c)){
+                    stateThree(c);
             }
         }
  
@@ -100,8 +106,6 @@ public class TokensGenerator {
                 
                 c = nextChar(); 
             }
-            
-            System.out.print(c);
         
             if(c == null){
                 this.tokenError.setCodigo(codigosErro.CMF.toString());
@@ -164,6 +168,58 @@ public class TokensGenerator {
                     }
                 }
                 stateZero (nextChar ());
+            }
+        }
+    }
+    
+    public void stateThree (Character c){
+        Token token = new Token(c.toString(), this.line);
+        this.tokenError.setLine(this.line);
+        
+        this.text = this.text.substring(1);
+        c = nextChar();
+        
+        if(c != null){
+            while(scan.isLetter(c) || scan.isDigit(c) || c.equals('_')){
+                token.setLexema(c);
+                this.text = this.text.substring(1);
+                
+                if(this.text.isEmpty()){
+                    break;
+                }
+                
+                c = nextChar();
+            }
+            
+            System.out.print(c);
+            
+            if(scan.delimitador(c) || scan.isCharOfOpAritmetico(c) || scan.isCharOfOpRelacional(c) || 
+                    scan.isCharOfOpAritmetico(c) || scan.isLineFeed(c) || scan.isSpace(c)){
+                
+                if(scan.isReservedWords(token.getLexema())){
+                    token.setCodigo(codigos.PRE.toString());
+                } else {
+                    token.setCodigo(codigos.IDE.toString());
+                }
+                System.out.print(token.toString()+ '\n');
+                stateZero (c);
+            } else 
+                if(this.text.isEmpty()){
+                    if(scan.isReservedWords(token.getLexema())){
+                        token.setCodigo(codigos.PRE.toString());
+                    } else {
+                        token.setCodigo(codigos.IDE.toString());
+                    }
+
+                    System.out.print(token.toString()+ '\n');
+                    stateZero (nextChar());
+            } else {
+                token.setLexema(c);
+                this.tokenError.setCodigo(codigosErro.IDEMF.toString());
+                this.tokenError.setMal_formed_lexema(token.getLexema());
+                System.out.print(this.tokenError.toString()+ '\n');
+                
+                stateZero(nextChar());
             }
         }
     }

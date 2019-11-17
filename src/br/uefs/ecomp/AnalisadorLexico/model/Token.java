@@ -20,7 +20,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return "< " + line + ": " + codigo + ", " + lexema + " >";
+        return "<" + line + ": " + codigo + ", " + lexema + ">";
     }
 
     public void setLexema(Character c) {
