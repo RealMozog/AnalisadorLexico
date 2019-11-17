@@ -9,10 +9,10 @@ public class AnalisadorLexicoController {
     private TokensGenerator automato;
     Character c;
     
-    public void analiseArq(String path){
+    public void analiseArq(String arq){
         this.automato = new TokensGenerator();
         
-        this.automato.setText("O if(abc)=!!");
+        this.automato.setText(arq);
         
         this.automato.stateZero(this.automato.nextChar());
     }

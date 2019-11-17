@@ -18,7 +18,7 @@ public class TokensGenerator {
     }
     
     private enum codigosErro {
-        CMF, COMF, IDEMF, NROMF;
+        CMF, COMF, IDEMF, NROMF, LOGMF, CIN;
     }
 
     public TokensGenerator() {
@@ -50,6 +50,7 @@ public class TokensGenerator {
     }
 
     public void stateZero (Character c){
+        this.tokenError.setLine(this.line);
         
         if(c != null){
             if(scan.isSpace(c) || scan.isLineFeed(c)){
@@ -94,7 +95,20 @@ public class TokensGenerator {
                     automatoDelimitador(c);
             } else 
                 if(scan.isCharOfOpRelacional(c)){
-                    automatoOpRelacional(c);
+                    if(c.equals('!') && !lookahead('=')){
+                        automatoOpLogico(c);
+                    } else {
+                        automatoOpRelacional(c);
+                    }      
+            } else
+                if(c.equals('&') || c.equals('|')){
+                    automatoOpLogico(c);
+            } else {
+                this.tokenError.setCodigo(codigosErro.CIN.toString());
+                this.tokenError.setMal_formed_lexema(c.toString());
+                System.out.print(this.tokenError.toString()+ '\n');
+                this.text = this.text.substring(1);
+                stateZero (nextChar ());
             }
         }
  
@@ -236,10 +250,24 @@ public class TokensGenerator {
                     stateZero (nextChar());
             } else {
                 token.setLexema(c);
+                this.text = this.text.substring(1);
+                c = nextChar();
+                
+                if(c != null){
+                    while(scan.isLetter(c) || scan.isDigit(c) || c.equals('_')){
+                        token.setLexema(c);
+                        this.text = this.text.substring(1);
+                        if(this.text.isEmpty()){
+                            break;
+                        }
+                        
+                        c = nextChar();
+                    }
+                }
+                
                 this.tokenError.setCodigo(codigosErro.IDEMF.toString());
                 this.tokenError.setMal_formed_lexema(token.getLexema());
                 System.out.print(this.tokenError.toString()+ '\n');
-                
                 stateZero(nextChar());
             }
         } else {
@@ -396,7 +424,6 @@ public class TokensGenerator {
     // operador aritmetico
     private void automatoOpAritmetico(Character c){
         Token token = new Token(c.toString(), this.line);
-        this.tokenError.setLine(this.line);
         
         if(c.equals('-') && lookahead('-')){
             this.text = this.text.substring(1);
@@ -449,14 +476,37 @@ public class TokensGenerator {
             this.text = this.text.substring(1);
             c = nextChar();
             token.setLexema(c);
-        }
-        if(c.equals('!')){
-            token.setCodigo(codigos.LOG.toString());
+        } else {
+            token.setCodigo(codigos.REL.toString());
             System.out.print(token.toString()+ '\n');
             this.text = this.text.substring(1);
             stateZero (nextChar());
+        }
+    }
+    
+    // operadores logicos
+    private void automatoOpLogico(Character c){
+        Token token = new Token(c.toString(), this.line);
+        this.tokenError.setLine(this.line);
+        
+        if(c.equals('&') && lookahead('&')){
+            this.text = this.text.substring(1);
+            c = nextChar();
+            token.setLexema(c);
+        }
+        if(c.equals('|') && lookahead('|')){
+            this.text = this.text.substring(1);
+            c = nextChar();
+            token.setLexema(c);
+        }
+        if(c.equals('&') || c.equals('|')){
+            this.tokenError.setCodigo(codigosErro.LOGMF.toString());
+            this.tokenError.setMal_formed_lexema(token.getLexema());
+            System.out.print(this.tokenError.toString()+ '\n');
+            this.text = this.text.substring(1);
+            stateZero (nextChar());
         } else {
-            token.setCodigo(codigos.REL.toString());
+            token.setCodigo(codigos.LOG.toString());
             System.out.print(token.toString()+ '\n');
             this.text = this.text.substring(1);
             stateZero (nextChar());

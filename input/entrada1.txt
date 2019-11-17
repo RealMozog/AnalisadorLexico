@@ -1,9 +1,6 @@
-    "exemplo teste"
-/* exa869 mi processadores de 
-linguagem de programacao
-;
+exemplo teste;
 
-real f = 3.0 ";
+real f = 3.0;
 
 texto msg = "teste
 
@@ -12,3 +9,5 @@ se ( f >= -10) && (f < )
 	
 // exemplo de teste do lexico
 
+/* exa869 mi processadores de 
+linguagem de programacao

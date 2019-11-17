@@ -21,10 +21,19 @@ public class AnalisadorLéxico {
     public static void main(String[] args) {
         // TODO code application logic here
         AnalisadorLexicoController controller = new AnalisadorLexicoController();
+        int count = 1;
         
         try{
-            String text = new String(Files.readAllBytes(Paths.get("input\\entrada_exemplo_teste_lexico.txt")), StandardCharsets.UTF_8);
-            controller.analiseArq(text);
+            String path = "input\\entrada" + count + ".txt";
+            String arq = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
+            while (!arq.isEmpty()){
+                controller.analiseArq(arq);
+                arq = null;
+                count++;
+                path = "input\\entrada" + count + ".txt";
+                arq = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
+            }
+            
         } catch (IOException e) {
              System.err.printf("Erro na abertura do arquivo: %s.\n",e.getMessage());
         }

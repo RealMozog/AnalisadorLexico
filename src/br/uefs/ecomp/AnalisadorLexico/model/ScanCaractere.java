@@ -12,7 +12,7 @@ public class ScanCaractere {
     private final String[] palavras_reservadas;
     private final String op_aritmetico = "+-*/";
     private final String op_relacional = "!=<>";
-    private final String delimitador = ";,()[]{}.|";
+    private final String delimitador = ";,()[]{}.";
 
     public ScanCaractere() {
         this.palavras_reservadas = new String[]{
