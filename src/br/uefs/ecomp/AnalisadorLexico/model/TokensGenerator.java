@@ -18,7 +18,7 @@ public class TokensGenerator {
     }
     
     private enum codigosErro {
-        CMF, COMF, IDEMF;
+        CMF, COMF, IDEMF, NROMF;
     }
 
     public TokensGenerator() {
@@ -74,7 +74,10 @@ public class TokensGenerator {
             } else
                 if(scan.isLetter(c)){
                     stateThree(c);
-            }
+            } else
+                if(scan.isDigit(c) || c.equals('-')){
+                    stateFour(c);
+                }
         }
  
     }
@@ -126,8 +129,12 @@ public class TokensGenerator {
                 stateZero (nextChar ());
                 // colocar na tabela de erros
             }
-            
-        }    
+        } else {
+            this.tokenError.setCodigo(codigosErro.CMF.toString());
+            this.tokenError.setMal_formed_lexema(token.getLexema());
+            System.out.print(this.tokenError.toString()+ '\n');
+            stateZero (nextChar ());
+        }
     }
      // comentarios!!
     private void stateTwo (Character c){
@@ -172,7 +179,8 @@ public class TokensGenerator {
         }
     }
     
-    public void stateThree (Character c){
+    // identificadores e palavras reservadas!!
+    private void stateThree (Character c){
         Token token = new Token(c.toString(), this.line);
         this.tokenError.setLine(this.line);
         
@@ -190,8 +198,6 @@ public class TokensGenerator {
                 
                 c = nextChar();
             }
-            
-            System.out.print(c);
             
             if(scan.delimitador(c) || scan.isCharOfOpAritmetico(c) || scan.isCharOfOpRelacional(c) || 
                     scan.isCharOfOpAritmetico(c) || scan.isLineFeed(c) || scan.isSpace(c)){
@@ -220,6 +226,154 @@ public class TokensGenerator {
                 System.out.print(this.tokenError.toString()+ '\n');
                 
                 stateZero(nextChar());
+            }
+        } else {
+            token.setCodigo(codigos.IDE.toString());
+            System.out.print(token.toString()+ '\n');
+            stateZero (c);
+        }
+    }
+    
+    // numeros!!
+    private void stateFour(Character c){
+        Token token = new Token(c.toString(), this.line);
+        this.tokenError.setLine(this.line);
+        
+        if(c.equals('-')){
+            this.text = this.text.substring(1);
+            c = nextChar();
+            
+            if(c != null){
+                while (scan.isSpace(c)){
+                    this.text = this.text.substring(1);
+                    if(this.text.isEmpty()){
+                        break;
+                    }
+                    
+                    c = nextChar();
+                }
+                
+                
+                if(scan.isDigit(c)){
+                    token.setLexema(c);
+                    this.text = this.text.substring(1);
+                    c = nextChar();
+
+                    if(c != null){
+                        if(scan.isDigit(c)){
+                           while(scan.isDigit(c)){
+                               token.setLexema(c);
+                               this.text = this.text.substring(1);
+                               if(this.text.isEmpty()){
+                                   break;
+                               }
+                               
+                               c = nextChar();
+                           }
+                        }
+                        
+                        if(c.equals('.')){
+                            token.setLexema(c);
+                            this.text = this.text.substring(1);
+                            c = nextChar();
+                            if(c != null){
+                                if(scan.isDigit(c)){
+                                    while(scan.isDigit(c)){
+                                         token.setLexema(c);
+                                         this.text = this.text.substring(1);
+                                         if(this.text.isEmpty()){
+                                             break;
+                                         }
+
+                                         c = nextChar();
+                                     }
+
+                                     token.setCodigo(codigos.NRO.toString());
+                                     System.out.print(token.toString()+ '\n');
+                                     stateZero (c);
+                                } else {
+                                   token.setLexema(c);
+                                   this.text = this.text.substring(1);
+                                   this.tokenError.setCodigo(codigosErro.NROMF.toString());
+                                   this.tokenError.setMal_formed_lexema(token.getLexema());
+                                   System.out.print(this.tokenError.toString()+ '\n');
+                                   stateZero (nextChar());
+                                }
+                            } else {
+                                this.tokenError.setCodigo(codigosErro.NROMF.toString());
+                                this.tokenError.setMal_formed_lexema(token.getLexema());
+                                System.out.print(this.tokenError.toString()+ '\n');
+                                stateZero (c);
+                            }
+                        }
+                    } else {
+                        token.setCodigo(codigos.NRO.toString());
+                        System.out.print(token.toString()+ '\n');
+                        stateZero (nextChar());
+                    }
+                } else {
+                    token.setCodigo(codigos.ART.toString());
+                    System.out.print(token.toString()+ '\n');
+                    stateZero (nextChar());
+                }
+            } else {
+                token.setCodigo(codigos.ART.toString());
+                System.out.print(token.toString()+ '\n');
+                stateZero (c);
+            }   
+        } else {
+            this.text = this.text.substring(1);
+            c = nextChar();
+            
+            if(c != null){
+                while(scan.isDigit(c)){
+                    token.setLexema(c);
+                    this.text = this.text.substring(1);
+                    if(this.text.isEmpty()){
+                        break;
+                    }
+                    
+                    c = nextChar();
+                }
+                
+                if(c.equals('.')){
+                    token.setLexema(c);
+                    this.text = this.text.substring(1);
+                    c = nextChar();
+                    if (c != null){
+                        if(scan.isDigit(c)){
+                            while(scan.isDigit(c)){
+                                token.setLexema(c);
+                                this.text = this.text.substring(1);
+                                if(this.text.isEmpty()){
+                                    break;
+                               }
+
+                                c = nextChar();
+                            }
+
+                            token.setCodigo(codigos.NRO.toString());
+                            System.out.print(token.toString()+ '\n');
+                            stateZero (c);
+                        } else {
+                            token.setLexema(c);
+                            this.text = this.text.substring(1);
+                            this.tokenError.setCodigo(codigosErro.NROMF.toString());
+                            this.tokenError.setMal_formed_lexema(token.getLexema());
+                            System.out.print(this.tokenError.toString()+ '\n');
+                            stateZero (nextChar());
+                        }
+                    } else {
+                        this.tokenError.setCodigo(codigosErro.NROMF.toString());
+                        this.tokenError.setMal_formed_lexema(token.getLexema());
+                        System.out.print(this.tokenError.toString()+ '\n');
+                        stateZero (nextChar());
+                    }
+                }
+            } else {
+                token.setCodigo(codigos.NRO.toString());
+                System.out.print(token.toString()+ '\n');
+                stateZero (c);
             }
         }
     }

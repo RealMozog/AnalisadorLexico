@@ -7,3 +7,5 @@ LOG operador logico
 ART operador aritmetico
 CMF cadeia mal formada
 COMF comentário mal formado
+IDEMF identificador mal-formado
+NROMF numero mal-formado
