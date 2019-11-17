@@ -87,8 +87,14 @@ public class TokensGenerator {
                         automatoNumero(c);
                     }
             } else 
-                if (c.equals('*') || c.equals('+')){
+                if(c.equals('*') || c.equals('+')){
                     automatoOpAritmetico(c);
+            } else 
+                if(scan.delimitador(c)){
+                    automatoDelimitador(c);
+            } else 
+                if(scan.isCharOfOpRelacional(c)){
+                    automatoOpRelacional(c);
             }
         }
  
@@ -413,5 +419,47 @@ public class TokensGenerator {
         token.setCodigo(codigos.ART.toString());
         System.out.print(token.toString()+ '\n');
         stateZero (nextChar());
+    }
+    
+    // delimitadores 
+    private void automatoDelimitador(Character c){
+        Token token = new Token(c.toString(), this.line);
+        this.text = this.text.substring(1);
+        
+        token.setCodigo(codigos.DEL.toString());
+        System.out.print(token.toString()+ '\n');
+        stateZero (nextChar());
+    }
+    
+    // operadores relacionais
+    private void automatoOpRelacional(Character c){
+        Token token = new Token(c.toString(), this.line);
+        
+        if(c.equals('!') && lookahead('=')){
+            this.text = this.text.substring(1);
+            c = nextChar();
+            token.setLexema(c);
+        }
+        if(c.equals('=') && lookahead('=')){
+            this.text = this.text.substring(1);
+            c = nextChar();
+            token.setLexema(c);
+        }
+        if((c.equals('<') || c.equals('>')) && lookahead('=')){
+            this.text = this.text.substring(1);
+            c = nextChar();
+            token.setLexema(c);
+        }
+        if(c.equals('!')){
+            token.setCodigo(codigos.LOG.toString());
+            System.out.print(token.toString()+ '\n');
+            this.text = this.text.substring(1);
+            stateZero (nextChar());
+        } else {
+            token.setCodigo(codigos.REL.toString());
+            System.out.print(token.toString()+ '\n');
+            this.text = this.text.substring(1);
+            stateZero (nextChar());
+        }
     }
 }
