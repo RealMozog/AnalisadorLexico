@@ -1,5 +1,6 @@
 ﻿PRE palavra reservada
 IDE identificador
+CDC cadeia de caracteres
 NRO numero
 DEL delimitador 
 REL operador relacional
@@ -9,3 +10,5 @@ CMF cadeia mal formada
 COMF comentário mal formado
 IDEMF identificador mal-formado
 NROMF numero mal-formado
+LOGMF operador logico mal-formado
+CIN caractere invalido

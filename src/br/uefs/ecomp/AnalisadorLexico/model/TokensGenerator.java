@@ -38,7 +38,6 @@ public class TokensGenerator {
                 this.line++;
             }
             
-            
             return next;
         }
         
@@ -282,6 +281,7 @@ public class TokensGenerator {
         Token token = new Token(c.toString(), this.line);
         this.tokenError.setLine(this.line);
         
+        
         if(c.equals('-')){
             this.text = this.text.substring(1);
             c = nextChar();
@@ -295,7 +295,6 @@ public class TokensGenerator {
                     
                     c = nextChar();
                 }
-                
                 
                 if(scan.isDigit(c)){
                     token.setLexema(c);
@@ -319,17 +318,18 @@ public class TokensGenerator {
                             token.setLexema(c);
                             this.text = this.text.substring(1);
                             c = nextChar();
+                            
                             if(c != null){
                                 if(scan.isDigit(c)){
                                     while(scan.isDigit(c)){
-                                         token.setLexema(c);
-                                         this.text = this.text.substring(1);
-                                         if(this.text.isEmpty()){
-                                             break;
-                                         }
+                                        token.setLexema(c);
+                                        this.text = this.text.substring(1);
+                                        if(this.text.isEmpty()){
+                                            break;
+                                        }
 
-                                         c = nextChar();
-                                     }
+                                        c = nextChar();
+                                    }
 
                                      token.setCodigo(codigos.NRO.toString());
                                      System.out.print(token.toString()+ '\n');
@@ -348,6 +348,10 @@ public class TokensGenerator {
                                 System.out.print(this.tokenError.toString()+ '\n');
                                 stateZero (c);
                             }
+                        } else {
+                            token.setCodigo(codigos.NRO.toString());
+                            System.out.print(token.toString()+ '\n');
+                            stateZero (nextChar());
                         }
                     } else {
                         token.setCodigo(codigos.NRO.toString());
@@ -394,7 +398,6 @@ public class TokensGenerator {
 
                                 c = nextChar();
                             }
-
                             token.setCodigo(codigos.NRO.toString());
                             System.out.print(token.toString()+ '\n');
                             stateZero (c);
@@ -412,6 +415,10 @@ public class TokensGenerator {
                         System.out.print(this.tokenError.toString()+ '\n');
                         stateZero (nextChar());
                     }
+                } else {
+                    token.setCodigo(codigos.NRO.toString());
+                    System.out.print(token.toString()+ '\n');
+                    stateZero (nextChar());
                 }
             } else {
                 token.setCodigo(codigos.NRO.toString());

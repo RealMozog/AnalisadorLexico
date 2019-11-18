@@ -26,6 +26,7 @@ public class AnalisadorLéxico {
         try{
             String path = "input\\entrada" + count + ".txt";
             String arq = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
+ 
             while (!arq.isEmpty()){
                 controller.analiseArq(arq);
                 arq = null;
