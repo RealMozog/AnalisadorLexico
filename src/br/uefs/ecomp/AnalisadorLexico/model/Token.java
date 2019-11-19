@@ -1,5 +1,4 @@
 package br.uefs.ecomp.AnalisadorLexico.model;
-
 /**
  *
  * @author sandr
@@ -25,6 +24,10 @@ public class Token {
 
     public void setLexema(Character c) {
         this.lexema = lexema += c.toString();
+    }
+    
+    public int getLine() {
+        return line;
     }
 
     public String getCodigo() {

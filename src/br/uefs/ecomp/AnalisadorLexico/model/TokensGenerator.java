@@ -3,6 +3,8 @@ package br.uefs.ecomp.AnalisadorLexico.model;
 import br.uefs.ecomp.AnalisadorLexico.model.Token;
 import br.uefs.ecomp.AnalisadorLexico.model.TokenError;
 import br.uefs.ecomp.AnalisadorLexico.model.ScanCaractere;
+import br.uefs.ecomp.AnalisadorLexico.model.TokenListHandler;
+import java.util.List;
 /**
  *
  * @author sandr
@@ -11,6 +13,7 @@ public class TokensGenerator {
     private TokenError tokenError;
     private ScanCaractere scan;
     private String text;
+    private TokenListHandler tokens;
     private int line = 1;
     
     private enum codigos {
@@ -21,9 +24,19 @@ public class TokensGenerator {
         CMF, COMF, IDEMF, NROMF, LOGMF, CIN;
     }
 
-    public TokensGenerator() {
+    public TokensGenerator(String arq) {
+        int linhas = 1;
+        this.text = arq;
         this.tokenError = new TokenError();
         scan = new ScanCaractere();
+        
+        for (int i = 0; i < this.text.length(); i++){
+            if (scan.isLineFeed(this.text.charAt(i))){
+                linhas++;
+            }
+        }
+        
+        this.tokens = new TokenListHandler(linhas);
     }
 
     public void setText(String text) {
@@ -48,7 +61,7 @@ public class TokensGenerator {
         return this.text.length() > 1 ? this.text.charAt(1) == expected : false;
     }
 
-    public void stateZero (Character c){
+    public TokenListHandler stateZero (Character c){
         this.tokenError.setLine(this.line);
         
         if(c != null){
@@ -105,12 +118,13 @@ public class TokensGenerator {
             } else {
                 this.tokenError.setCodigo(codigosErro.CIN.toString());
                 this.tokenError.setMal_formed_lexema(c.toString());
-                System.out.print(this.tokenError.toString()+ '\n');
+                this.tokens.getTokensErro().addToken(tokenError);
                 this.text = this.text.substring(1);
                 stateZero (nextChar ());
             }
         }
- 
+        
+        return this.tokens;
     }
     
     // Cadeia de caracteres !!
@@ -144,26 +158,26 @@ public class TokensGenerator {
             if(c == null){
                 this.tokenError.setCodigo(codigosErro.CMF.toString());
                 this.tokenError.setMal_formed_lexema(token.getLexema());
-                System.out.print(this.tokenError.toString());
+                this.tokens.getTokensErro().addToken(tokenError);
             }else 
                 if (c.equals('"')){
                 token.setLexema(c);
                 this.text = this.text.substring(1);
                 token.setCodigo(codigos.CDC.toString());
-                System.out.print(token.toString()+ '\n');
+                this.tokens.getTokens().addToken(token);
                 stateZero (nextChar ());
             } else {
                 token.setLexema(c);
                 this.tokenError.setCodigo(codigosErro.CMF.toString());
                 this.tokenError.setMal_formed_lexema(token.getLexema());
-                System.out.print(this.tokenError.toString()+ '\n');
+                this.tokens.getTokensErro().addToken(tokenError);
                 stateZero (nextChar ());
                 // colocar na tabela de erros
             }
         } else {
             this.tokenError.setCodigo(codigosErro.CMF.toString());
             this.tokenError.setMal_formed_lexema(token.getLexema());
-            System.out.print(this.tokenError.toString()+ '\n');
+            this.tokens.getTokensErro().addToken(tokenError);
             stateZero (nextChar ());
         }
     }
@@ -193,7 +207,7 @@ public class TokensGenerator {
                 if(this.text.isEmpty()){
                     this.tokenError.setCodigo(codigosErro.COMF.toString());
                     this.tokenError.setMal_formed_lexema(token.getLexema());
-                    System.out.print(this.tokenError.toString()+ '\n');
+                    this.tokens.getTokensErro().addToken(tokenError);
                     break;
                 }
                 c = nextChar();
@@ -235,7 +249,7 @@ public class TokensGenerator {
                 } else {
                     token.setCodigo(codigos.IDE.toString());
                 }
-                System.out.print(token.toString()+ '\n');
+                this.tokens.getTokens().addToken(token);
                 stateZero (c);
             } else 
                 if(this.text.isEmpty()){
@@ -245,7 +259,7 @@ public class TokensGenerator {
                         token.setCodigo(codigos.IDE.toString());
                     }
 
-                    System.out.print(token.toString()+ '\n');
+                    this.tokens.getTokens().addToken(token);
                     stateZero (nextChar());
             } else {
                 token.setLexema(c);
@@ -266,12 +280,12 @@ public class TokensGenerator {
                 
                 this.tokenError.setCodigo(codigosErro.IDEMF.toString());
                 this.tokenError.setMal_formed_lexema(token.getLexema());
-                System.out.print(this.tokenError.toString()+ '\n');
+                this.tokens.getTokensErro().addToken(tokenError);
                 stateZero(nextChar());
             }
         } else {
             token.setCodigo(codigos.IDE.toString());
-            System.out.print(token.toString()+ '\n');
+            this.tokens.getTokens().addToken(token);
             stateZero (c);
         }
     }
@@ -332,40 +346,40 @@ public class TokensGenerator {
                                     }
 
                                      token.setCodigo(codigos.NRO.toString());
-                                     System.out.print(token.toString()+ '\n');
+                                     this.tokens.getTokens().addToken(token);
                                      stateZero (c);
                                 } else {
                                    token.setLexema(c);
                                    this.text = this.text.substring(1);
                                    this.tokenError.setCodigo(codigosErro.NROMF.toString());
                                    this.tokenError.setMal_formed_lexema(token.getLexema());
-                                   System.out.print(this.tokenError.toString()+ '\n');
+                                   this.tokens.getTokensErro().addToken(tokenError);
                                    stateZero (nextChar());
                                 }
                             } else {
                                 this.tokenError.setCodigo(codigosErro.NROMF.toString());
                                 this.tokenError.setMal_formed_lexema(token.getLexema());
-                                System.out.print(this.tokenError.toString()+ '\n');
+                                this.tokens.getTokensErro().addToken(tokenError);
                                 stateZero (c);
                             }
                         } else {
                             token.setCodigo(codigos.NRO.toString());
-                            System.out.print(token.toString()+ '\n');
+                            this.tokens.getTokens().addToken(token);
                             stateZero (nextChar());
                         }
                     } else {
                         token.setCodigo(codigos.NRO.toString());
-                        System.out.print(token.toString()+ '\n');
+                        this.tokens.getTokens().addToken(token);
                         stateZero (nextChar());
                     }
                 } else {
                     token.setCodigo(codigos.ART.toString());
-                    System.out.print(token.toString()+ '\n');
+                    this.tokens.getTokens().addToken(token);
                     stateZero (nextChar());
                 }
             } else {
                 token.setCodigo(codigos.ART.toString());
-                System.out.print(token.toString()+ '\n');
+                this.tokens.getTokens().addToken(token);
                 stateZero (c);
             }   
         } else {
@@ -399,30 +413,30 @@ public class TokensGenerator {
                                 c = nextChar();
                             }
                             token.setCodigo(codigos.NRO.toString());
-                            System.out.print(token.toString()+ '\n');
+                            this.tokens.getTokens().addToken(token);
                             stateZero (c);
                         } else {
                             token.setLexema(c);
                             this.text = this.text.substring(1);
                             this.tokenError.setCodigo(codigosErro.NROMF.toString());
                             this.tokenError.setMal_formed_lexema(token.getLexema());
-                            System.out.print(this.tokenError.toString()+ '\n');
+                            this.tokens.getTokensErro().addToken(tokenError);
                             stateZero (nextChar());
                         }
                     } else {
                         this.tokenError.setCodigo(codigosErro.NROMF.toString());
                         this.tokenError.setMal_formed_lexema(token.getLexema());
-                        System.out.print(this.tokenError.toString()+ '\n');
+                        this.tokens.getTokensErro().addToken(tokenError);
                         stateZero (nextChar());
                     }
                 } else {
                     token.setCodigo(codigos.NRO.toString());
-                    System.out.print(token.toString()+ '\n');
+                    this.tokens.getTokens().addToken(token);
                     stateZero (nextChar());
                 }
             } else {
                 token.setCodigo(codigos.NRO.toString());
-                System.out.print(token.toString()+ '\n');
+                this.tokens.getTokens().addToken(token);
                 stateZero (c);
             }
         }
@@ -451,7 +465,7 @@ public class TokensGenerator {
         }
 
         token.setCodigo(codigos.ART.toString());
-        System.out.print(token.toString()+ '\n');
+        this.tokens.getTokens().addToken(token);
         stateZero (nextChar());
     }
     
@@ -461,7 +475,7 @@ public class TokensGenerator {
         this.text = this.text.substring(1);
         
         token.setCodigo(codigos.DEL.toString());
-        System.out.print(token.toString()+ '\n');
+        this.tokens.getTokens().addToken(token);
         stateZero (nextChar());
     }
     
@@ -485,7 +499,7 @@ public class TokensGenerator {
             token.setLexema(c);
         } else {
             token.setCodigo(codigos.REL.toString());
-            System.out.print(token.toString()+ '\n');
+            this.tokens.getTokens().addToken(token);
             this.text = this.text.substring(1);
             stateZero (nextChar());
         }
@@ -509,12 +523,12 @@ public class TokensGenerator {
         if(c.equals('&') || c.equals('|')){
             this.tokenError.setCodigo(codigosErro.LOGMF.toString());
             this.tokenError.setMal_formed_lexema(token.getLexema());
-            System.out.print(this.tokenError.toString()+ '\n');
+            this.tokens.getTokensErro().addToken(tokenError);
             this.text = this.text.substring(1);
             stateZero (nextChar());
         } else {
             token.setCodigo(codigos.LOG.toString());
-            System.out.print(token.toString()+ '\n');
+            this.tokens.getTokens().addToken(token);
             this.text = this.text.substring(1);
             stateZero (nextChar());
         }

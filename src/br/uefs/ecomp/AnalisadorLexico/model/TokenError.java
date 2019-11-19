@@ -2,8 +2,9 @@ package br.uefs.ecomp.AnalisadorLexico.model;
 
 /**
  *
- * @author sandr
+ * @author Alessandro Costa
  */
+
 public class TokenError {
     private String codigo;
     private String mal_formed_lexema;

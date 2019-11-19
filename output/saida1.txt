@@ -1,0 +1,23 @@
+<1: IDE, exemplo>
+<1: IDE, teste>
+<1: DEL, ;>
+<3: PRE, real>
+<3: IDE, f>
+<3: REL, =>
+<3: NRO, 3.0>
+<3: DEL, ;>
+<5: IDE, texto>
+<5: IDE, msg>
+<5: REL, =>
+<5: CDC, "teste
+
+se ( f >= -10) && (f < ) 
+	escreva(">
+<8: IDE, mensagem>
+<8: DEL, )>
+<8: DEL, ;>
+
+
+<15: COMF, /* exa869 mi processadores de 
+linguagem de programacao
+>
