@@ -27,9 +27,8 @@ public class TokensGenerator {
     }
 
     public TokensGenerator(String arq) {
-        int linhas = 100;
+        int linhas = 1;
         this.text = arq;
-        // this.tokenError = new TokenError();
         scan = new ScanCaractere();
         
         for (int i = 0; i < this.text.length(); i++){
@@ -37,7 +36,7 @@ public class TokensGenerator {
                 linhas++;
             }
         }
-        System.out.print(linhas);
+        
         this.tokens = new TokenListHandler(linhas);
     }
 
@@ -50,6 +49,8 @@ public class TokensGenerator {
             Character next = this.text.charAt(0);
 
             if(scan.isLineFeed(next)){
+                this.text = this.text.substring(1);
+                next = this.text.charAt(0);
                 this.line++;
             }
             
@@ -146,6 +147,7 @@ public class TokensGenerator {
                     c = nextChar();
                     token.setLexema(c);
                     this.text = this.text.substring(1);
+                    c = nextChar();
                 } else {
                     token.setLexema(c);
                     this.text = this.text.substring(1);

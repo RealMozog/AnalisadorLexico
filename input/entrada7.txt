@@ -1,12 +1,16 @@
-// teste07 - varios erros
-	
-real 33.#33;
+﻿// teste06 - cadeia de caracteres (string)
 
-string mens@gem_1
+" ok "
 
-123#.45
+"string
 
-"erro na cadeia. falta fecha aspas
+pode terminar em outra linha"
 
-/* nao fechou // 
-comentario //
+" string com simbolo invalido ¶ "
+
+" diga \"oi\""
+
+" hello
+  world "
+
+" string \"nao fechada\"

@@ -16,7 +16,7 @@ public class TokenError {
 
     @Override
     public String toString() {
-        return "<" + line + ": " + codigo + ", " + mal_formed_lexema + ">";
+        return "<" + line / 2 + ": " + codigo + ", " + mal_formed_lexema + ">";
     }
 
     public void setCodigo(String codigo) {

@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
- 
 
 /**
  *
@@ -55,7 +54,7 @@ public class AnalisadorLéxico {
                 writeOutput (w, count);
                 
                 arq = null;
-                w = null;
+                w = "";
                 count++;
                 path = "input\\entrada" + count + ".txt";
                 arq = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);

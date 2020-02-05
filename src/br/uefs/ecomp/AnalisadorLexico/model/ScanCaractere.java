@@ -31,7 +31,7 @@ public class ScanCaractere {
     }
     
     public boolean isValidSymbol(Character c){
-        return c != null ? ((int)c != 34) || ((int)c >= 32 && (int)c <= 126) : false ;
+        return c != null ? ((int)c != 34) && ((int)c >= 32 && (int)c <= 126) : false ;
     }
     
     public boolean isSpace (Character c){
