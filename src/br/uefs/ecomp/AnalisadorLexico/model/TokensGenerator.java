@@ -5,12 +5,14 @@ import br.uefs.ecomp.AnalisadorLexico.model.TokenError;
 import br.uefs.ecomp.AnalisadorLexico.model.ScanCaractere;
 import br.uefs.ecomp.AnalisadorLexico.model.TokenListHandler;
 import java.util.List;
+
 /**
  *
- * @author sandr
+ * @author Alessandro Costa
  */
+
+
 public class TokensGenerator {
-    private TokenError tokenError;
     private ScanCaractere scan;
     private String text;
     private TokenListHandler tokens;
@@ -25,9 +27,9 @@ public class TokensGenerator {
     }
 
     public TokensGenerator(String arq) {
-        int linhas = 1;
+        int linhas = 100;
         this.text = arq;
-        this.tokenError = new TokenError();
+        // this.tokenError = new TokenError();
         scan = new ScanCaractere();
         
         for (int i = 0; i < this.text.length(); i++){
@@ -35,7 +37,7 @@ public class TokensGenerator {
                 linhas++;
             }
         }
-        
+        System.out.print(linhas);
         this.tokens = new TokenListHandler(linhas);
     }
 
@@ -62,7 +64,7 @@ public class TokensGenerator {
     }
 
     public TokenListHandler stateZero (Character c){
-        this.tokenError.setLine(this.line);
+        TokenError tokenError = new TokenError(this.line);   
         
         if(c != null){
             if(scan.isSpace(c) || scan.isLineFeed(c)){
@@ -116,8 +118,8 @@ public class TokensGenerator {
                 if(c.equals('&') || c.equals('|')){
                     automatoOpLogico(c);
             } else {
-                this.tokenError.setCodigo(codigosErro.CIN.toString());
-                this.tokenError.setMal_formed_lexema(c.toString());
+                tokenError.setCodigo(codigosErro.CIN.toString());
+                tokenError.setMal_formed_lexema(c.toString());
                 this.tokens.getTokensErro().addToken(tokenError);
                 this.text = this.text.substring(1);
                 stateZero (nextChar ());
@@ -130,7 +132,7 @@ public class TokensGenerator {
     // Cadeia de caracteres !!
     private void automatoCadeiaCaractere (Character c){
         Token token = new Token(c.toString(), this.line);
-        this.tokenError.setLine(this.line);
+        TokenError tokenError = new TokenError(this.line);  
         
         this.text = this.text.substring(1);
         c = nextChar();
@@ -156,8 +158,8 @@ public class TokensGenerator {
             }
         
             if(c == null){
-                this.tokenError.setCodigo(codigosErro.CMF.toString());
-                this.tokenError.setMal_formed_lexema(token.getLexema());
+                tokenError.setCodigo(codigosErro.CMF.toString());
+                tokenError.setMal_formed_lexema(token.getLexema());
                 this.tokens.getTokensErro().addToken(tokenError);
             }else 
                 if (c.equals('"')){
@@ -168,15 +170,15 @@ public class TokensGenerator {
                 stateZero (nextChar ());
             } else {
                 token.setLexema(c);
-                this.tokenError.setCodigo(codigosErro.CMF.toString());
-                this.tokenError.setMal_formed_lexema(token.getLexema());
+                tokenError.setCodigo(codigosErro.CMF.toString());
+                tokenError.setMal_formed_lexema(token.getLexema());
                 this.tokens.getTokensErro().addToken(tokenError);
                 stateZero (nextChar ());
                 // colocar na tabela de erros
             }
         } else {
-            this.tokenError.setCodigo(codigosErro.CMF.toString());
-            this.tokenError.setMal_formed_lexema(token.getLexema());
+            tokenError.setCodigo(codigosErro.CMF.toString());
+            tokenError.setMal_formed_lexema(token.getLexema());
             this.tokens.getTokensErro().addToken(tokenError);
             stateZero (nextChar ());
         }
@@ -185,7 +187,7 @@ public class TokensGenerator {
      // comentarios!!
     private void automatoComentario (Character c){
         Token token = new Token(c.toString(), this.line);
-        this.tokenError.setLine(this.line);
+        TokenError tokenError = new TokenError(this.line);
         
         this.text = this.text.substring(1);
         c = nextChar();
@@ -205,9 +207,9 @@ public class TokensGenerator {
                 token.setLexema(c);
                 this.text = this.text.substring(1);
                 if(this.text.isEmpty()){
-                    this.tokenError.setCodigo(codigosErro.COMF.toString());
-                    this.tokenError.setMal_formed_lexema(token.getLexema());
-                    this.tokens.getTokensErro().addToken(tokenError);
+                    tokenError.setCodigo(codigosErro.COMF.toString());
+                    tokenError.setMal_formed_lexema(token.getLexema());
+                    tokens.getTokensErro().addToken(tokenError);
                     break;
                 }
                 c = nextChar();
@@ -224,7 +226,7 @@ public class TokensGenerator {
     // identificadores e palavras reservadas!!
     private void automatoIdentificador (Character c){
         Token token = new Token(c.toString(), this.line);
-        this.tokenError.setLine(this.line);
+        TokenError tokenError = new TokenError(this.line);  
         
         this.text = this.text.substring(1);
         c = nextChar();
@@ -278,8 +280,8 @@ public class TokensGenerator {
                     }
                 }
                 
-                this.tokenError.setCodigo(codigosErro.IDEMF.toString());
-                this.tokenError.setMal_formed_lexema(token.getLexema());
+                tokenError.setCodigo(codigosErro.IDEMF.toString());
+                tokenError.setMal_formed_lexema(token.getLexema());
                 this.tokens.getTokensErro().addToken(tokenError);
                 stateZero(nextChar());
             }
@@ -293,7 +295,7 @@ public class TokensGenerator {
     // numeros!!
     private void automatoNumero(Character c){
         Token token = new Token(c.toString(), this.line);
-        this.tokenError.setLine(this.line);
+        TokenError tokenError = new TokenError(this.line);  
         
         
         if(c.equals('-')){
@@ -351,14 +353,14 @@ public class TokensGenerator {
                                 } else {
                                    token.setLexema(c);
                                    this.text = this.text.substring(1);
-                                   this.tokenError.setCodigo(codigosErro.NROMF.toString());
-                                   this.tokenError.setMal_formed_lexema(token.getLexema());
+                                   tokenError.setCodigo(codigosErro.NROMF.toString());
+                                   tokenError.setMal_formed_lexema(token.getLexema());
                                    this.tokens.getTokensErro().addToken(tokenError);
                                    stateZero (nextChar());
                                 }
                             } else {
-                                this.tokenError.setCodigo(codigosErro.NROMF.toString());
-                                this.tokenError.setMal_formed_lexema(token.getLexema());
+                                tokenError.setCodigo(codigosErro.NROMF.toString());
+                                tokenError.setMal_formed_lexema(token.getLexema());
                                 this.tokens.getTokensErro().addToken(tokenError);
                                 stateZero (c);
                             }
@@ -418,14 +420,14 @@ public class TokensGenerator {
                         } else {
                             token.setLexema(c);
                             this.text = this.text.substring(1);
-                            this.tokenError.setCodigo(codigosErro.NROMF.toString());
-                            this.tokenError.setMal_formed_lexema(token.getLexema());
+                            tokenError.setCodigo(codigosErro.NROMF.toString());
+                            tokenError.setMal_formed_lexema(token.getLexema());
                             this.tokens.getTokensErro().addToken(tokenError);
                             stateZero (nextChar());
                         }
                     } else {
-                        this.tokenError.setCodigo(codigosErro.NROMF.toString());
-                        this.tokenError.setMal_formed_lexema(token.getLexema());
+                        tokenError.setCodigo(codigosErro.NROMF.toString());
+                        tokenError.setMal_formed_lexema(token.getLexema());
                         this.tokens.getTokensErro().addToken(tokenError);
                         stateZero (nextChar());
                     }
@@ -508,7 +510,7 @@ public class TokensGenerator {
     // operadores logicos
     private void automatoOpLogico(Character c){
         Token token = new Token(c.toString(), this.line);
-        this.tokenError.setLine(this.line);
+        TokenError tokenError = new TokenError(this.line);  
         
         if(c.equals('&') && lookahead('&')){
             this.text = this.text.substring(1);
@@ -521,8 +523,8 @@ public class TokensGenerator {
             token.setLexema(c);
         }
         if(c.equals('&') || c.equals('|')){
-            this.tokenError.setCodigo(codigosErro.LOGMF.toString());
-            this.tokenError.setMal_formed_lexema(token.getLexema());
+            tokenError.setCodigo(codigosErro.LOGMF.toString());
+            tokenError.setMal_formed_lexema(token.getLexema());
             this.tokens.getTokensErro().addToken(tokenError);
             this.text = this.text.substring(1);
             stateZero (nextChar());

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author sandr
+ * @author Alessandro Costa
  */
 public class TokensList {
     private ArrayList<LinkedList<Token>> tabelaDeSimbolos = new ArrayList<LinkedList<Token>>();

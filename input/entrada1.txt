@@ -1,13 +1,12 @@
-exemplo teste;
+//teste 01 - identificadores
 
-real f = 3.0;
+procedure start (  )
+{ 
+int cont@dor;
+_x ;
+ 
+	salario$mes;
 
-texto msg = "teste
-
-se ( f >= -10) && (f < ) 
-	escreva("mensagem );
-	
-// exemplo de teste do lexico
-
-/* exa869 mi processadores de 
-linguagem de programacao
+	flag_#1, flag2 flag_3_#;
+    
+uefs_123

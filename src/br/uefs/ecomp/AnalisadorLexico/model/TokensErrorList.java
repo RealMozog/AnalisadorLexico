@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 /**
  *
- * @author sandr
+ * @author Alessandro Costa
  */
 public class TokensErrorList {
     private ArrayList<LinkedList<TokenError>> tabelaErros = new ArrayList<LinkedList<TokenError>>();

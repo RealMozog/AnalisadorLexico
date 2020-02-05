@@ -9,6 +9,10 @@ public class TokenError {
     private String codigo;
     private String mal_formed_lexema;
     private int line;
+    
+    public TokenError(int line){
+        this.line = line;
+    }
 
     @Override
     public String toString() {

@@ -16,6 +16,7 @@ public class AnalisadorLexicoController {
     public void analiseArq(String arq){
         this.automato = new TokensGenerator(arq);
         
+        
         tokens = this.automato.stateZero(this.automato.nextChar());
     }
     

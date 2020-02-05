@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 /**
  *
- * @author sandr
+ * @author Alessandro Costa
  */
 public class ScanCaractere {
     private final String letras = "abcdefghijklmnopkrstuvxzABCDEFGHIJKLMOPQRSTUVXZ";

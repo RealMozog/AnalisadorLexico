@@ -4,7 +4,7 @@ import br.uefs.ecomp.AnalisadorLexico.model.TokensErrorList;
 import br.uefs.ecomp.AnalisadorLexico.model.TokensList;
 /**
  *
- * @author sandr
+ * @author Alessandro Costa
  */
 public class TokenListHandler {
     private TokensList tokens;

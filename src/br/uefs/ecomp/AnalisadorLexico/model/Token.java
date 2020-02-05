@@ -1,7 +1,7 @@
 package br.uefs.ecomp.AnalisadorLexico.model;
 /**
  *
- * @author sandr
+ * @author Alessandro Costa
  */
 public class Token {
     private String codigo;

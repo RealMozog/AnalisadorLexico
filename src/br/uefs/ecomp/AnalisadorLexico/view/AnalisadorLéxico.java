@@ -14,7 +14,8 @@ import java.util.Iterator;
 
 /**
  *
- * @author sandr
+ * @author Alessandro Costa
+ * MI - Compiladores - UEFS
  */
 
 public class AnalisadorLéxico {
@@ -35,6 +36,7 @@ public class AnalisadorLéxico {
             String arq = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
  
             while (!arq.isEmpty()){
+                
                 controller.analiseArq(arq);
                 
                 iterator = controller.iteratorTokens();
@@ -43,7 +45,7 @@ public class AnalisadorLéxico {
                 iteratorErr = controller.iteratorErros();
                 
                 if(!iteratorErr.hasNext()){
-                    System.out.printf("Nenhum erro encontrado no arquivo de entrada" + count);
+                    System.out.printf("Nenhum erro encontrado no arquivo de entrada" + count + "\n");
                 } else {
                     w += tokensInValidos(iteratorErr);
                 }
