@@ -1,5 +1,6 @@
 //teste 01 - identificadores
 
+idade ++ -- /
 procedure start (  )
 { 
 int cont@dor;

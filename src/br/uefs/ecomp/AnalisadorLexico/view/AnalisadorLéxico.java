@@ -49,7 +49,7 @@ public class AnalisadorLéxico {
                     w += tokensInValidos(iteratorErr);
                 }
                 
-                System.out.print(w);
+                System.out.print(w + "\n");
                 
                 writeOutput (w, count);
                 

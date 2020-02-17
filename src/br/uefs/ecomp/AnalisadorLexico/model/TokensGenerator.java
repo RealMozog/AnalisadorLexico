@@ -1,11 +1,5 @@
 package br.uefs.ecomp.AnalisadorLexico.model;
 
-import br.uefs.ecomp.AnalisadorLexico.model.Token;
-import br.uefs.ecomp.AnalisadorLexico.model.TokenError;
-import br.uefs.ecomp.AnalisadorLexico.model.ScanCaractere;
-import br.uefs.ecomp.AnalisadorLexico.model.TokenListHandler;
-import java.util.List;
-
 /**
  *
  * @author Alessandro Costa
@@ -158,13 +152,13 @@ public class TokensGenerator {
                 
                 c = nextChar(); 
             }
-        
             if(c == null){
                 tokenError.setCodigo(codigosErro.CMF.toString());
                 tokenError.setMal_formed_lexema(token.getLexema());
                 this.tokens.getTokensErro().addToken(tokenError);
-            }else 
-                if (c.equals('"')){
+                stateZero (nextChar ());
+            } else 
+                if(c.equals('"')){
                 token.setLexema(c);
                 this.text = this.text.substring(1);
                 token.setCodigo(codigos.CDC.toString());
@@ -176,7 +170,6 @@ public class TokensGenerator {
                 tokenError.setMal_formed_lexema(token.getLexema());
                 this.tokens.getTokensErro().addToken(tokenError);
                 stateZero (nextChar ());
-                // colocar na tabela de erros
             }
         } else {
             tokenError.setCodigo(codigosErro.CMF.toString());
@@ -203,7 +196,7 @@ public class TokensGenerator {
 
                 c = nextChar();
             }
-            stateZero (nextChar());
+            stateZero (c);
         } else {
             while (!this.text.isEmpty()){
                 token.setLexema(c);
@@ -454,20 +447,13 @@ public class TokensGenerator {
             this.text = this.text.substring(1);
             c = nextChar();
             token.setLexema(c);
-            this.text = this.text.substring(1);
         } else 
             if(c.equals('+') && lookahead('+')){
                 this.text = this.text.substring(1);
                 c = nextChar();
                 token.setLexema(c);
-                this.text = this.text.substring(1);
-        } else
-            if(c.equals('/') || c.equals('*')){
-            this.text = this.text.substring(1);
-        } else {
-            this.text = this.text.substring(1);
         }
-
+        this.text = this.text.substring(1);
         token.setCodigo(codigos.ART.toString());
         this.tokens.getTokens().addToken(token);
         stateZero (nextChar());
@@ -501,12 +487,11 @@ public class TokensGenerator {
             this.text = this.text.substring(1);
             c = nextChar();
             token.setLexema(c);
-        } else {
-            token.setCodigo(codigos.REL.toString());
-            this.tokens.getTokens().addToken(token);
-            this.text = this.text.substring(1);
-            stateZero (nextChar());
         }
+        this.text = this.text.substring(1);
+        token.setCodigo(codigos.REL.toString());
+        this.tokens.getTokens().addToken(token);
+        stateZero (nextChar());
     }
     
     // operadores logicos
