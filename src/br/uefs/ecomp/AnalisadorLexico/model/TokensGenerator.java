@@ -164,13 +164,24 @@ public class TokensGenerator {
                 token.setCodigo(codigos.CDC.toString());
                 this.tokens.getTokens().addToken(token);
                 stateZero (nextChar ());
-            } else {
-                token.setLexema(c);
-                tokenError.setCodigo(codigosErro.CMF.toString());
-                tokenError.setMal_formed_lexema(token.getLexema());
-                this.tokens.getTokensErro().addToken(tokenError);
-                stateZero (nextChar ());
-            }
+            } else
+                if(!scan.isValidSymbol(c)) {
+                    while(c != '"') {
+                        token.setLexema(c);
+                        this.text = this.text.substring(1);
+                        if(this.text.isEmpty()){
+                            break;
+                        }
+                
+                        c = nextChar(); 
+                    }
+                    token.setLexema(c);
+                    this.text = this.text.substring(1);
+                    tokenError.setCodigo(codigosErro.CMF.toString());
+                    tokenError.setMal_formed_lexema(token.getLexema());
+                    this.tokens.getTokensErro().addToken(tokenError);
+                    stateZero (nextChar ());
+            } 
         } else {
             tokenError.setCodigo(codigosErro.CMF.toString());
             tokenError.setMal_formed_lexema(token.getLexema());

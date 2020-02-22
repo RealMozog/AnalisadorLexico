@@ -10,7 +10,3 @@
 <3: NROMF, 33.#>
 <5: IDEMF, mens@gem_1>
 <8: CIN, #>
-<11: CMF, "erro na cadeia. falta fecha aspas
-
-/* nao fechou // 
-comentario ///>
