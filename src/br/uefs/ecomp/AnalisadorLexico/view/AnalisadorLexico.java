@@ -17,13 +17,16 @@ import java.util.Iterator;
  * MI - Compiladores - UEFS
  */
 
-public class AnalisadorLéxico {
+public class AnalisadorLexico {
 
     /**
      * @param args the command line arguments
      */
+    public void execute (String[] args){
+        main(args);
+    }
+    
     public static void main(String[] args) {
-        // TODO code application logic here
         AnalisadorLexicoController controller = new AnalisadorLexicoController();
         Iterator<Token> iterator;
         Iterator<TokenError> iteratorErr;

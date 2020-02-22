@@ -13,4 +13,4 @@
 <11: CMF, "erro na cadeia. falta fecha aspas
 
 /* nao fechou // 
-comentario //>
+comentario ///>

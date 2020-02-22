@@ -15,10 +15,10 @@
 <7: REL, =>
 <7: IDE, d>
 <9: IDE, a>
+<9: LOG, &&>
 <9: IDE, b>
 <9: ART, *>
 <9: NRO, 2>
-<11: LOG, !>
 <11: IDE, b>
 <11: ART, -->
 <11: REL, <=>
@@ -31,12 +31,11 @@
 <13: ART, +>
 <13: NRO, 20>
 <13: ART, />
+<13: LOG, &&>
 <13: NRO, 100>
 
 
-<7: LOGMF, &>
-<7: LOGMF, &>
-<9: LOGMF, &&>
-<11: LOGMF, |>
-<11: LOGMF, |>
-<13: LOGMF, &&>
+<7: LOGMF, & >
+<7: LOGMF, & >
+<11: LOGMF, | >
+<11: LOGMF, |!>

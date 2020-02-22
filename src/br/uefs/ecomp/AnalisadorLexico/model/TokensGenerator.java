@@ -503,23 +503,45 @@ public class TokensGenerator {
             this.text = this.text.substring(1);
             c = nextChar();
             token.setLexema(c);
-        }
-        if(c.equals('|') && lookahead('|')){
-            this.text = this.text.substring(1);
-            c = nextChar();
-            token.setLexema(c);
-        }
-        if(c.equals('&') || c.equals('|')){
-            tokenError.setCodigo(codigosErro.LOGMF.toString());
-            tokenError.setMal_formed_lexema(token.getLexema());
-            this.tokens.getTokensErro().addToken(tokenError);
+            token.setCodigo(codigos.LOG.toString());
+            this.tokens.getTokens().addToken(token);
             this.text = this.text.substring(1);
             stateZero (nextChar());
+        } else 
+            if(c.equals('|') && lookahead('|')){
+                this.text = this.text.substring(1);
+                c = nextChar();
+                token.setLexema(c);
+                token.setCodigo(codigos.LOG.toString());
+                this.tokens.getTokens().addToken(token);
+                this.text = this.text.substring(1);
+                stateZero (nextChar());
+        } else 
+            if(c.equals('&') && !lookahead('&')){
+                this.text = this.text.substring(1);
+                c = nextChar();
+                token.setLexema(c);
+                tokenError.setCodigo(codigosErro.LOGMF.toString());
+                tokenError.setMal_formed_lexema(token.getLexema());
+                this.tokens.getTokensErro().addToken(tokenError);
+                this.text = this.text.substring(1);
+                stateZero (nextChar());
+        } else 
+            if(c.equals('|') && !lookahead('|')){
+                this.text = this.text.substring(1);
+                c = nextChar();
+                token.setLexema(c);
+                tokenError.setCodigo(codigosErro.LOGMF.toString());
+                tokenError.setMal_formed_lexema(token.getLexema());
+                this.tokens.getTokensErro().addToken(tokenError);
+                this.text = this.text.substring(1);
+                stateZero (nextChar());
         } else {
             token.setCodigo(codigos.LOG.toString());
             this.tokens.getTokens().addToken(token);
             this.text = this.text.substring(1);
             stateZero (nextChar());
         }
+            
     }
 }
