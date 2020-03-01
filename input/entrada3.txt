@@ -1,13 +1,42 @@
-// teste 03 - operadores
+const {
+    int a = 4;
+    boolean aux1 = true;
+    real numeroAux = 4.478;
+    string auxString = "Testando";
+}
+var {
+    int auxNum, testeNum, next;
+    string auxString = "Testando";
+}
 
-a ! = !b
+function int start (){
+    var {
+        int numLocal = 3;
+        float numAux = 1.1;
+    }
+    while (numLocal a < 40) {
+        a = mudaNum (a);
+    }
 
-a != !b
+    aumentaNum(a);
+    return a;
+}
 
-a >= b & & b < = d
+function mudaNum (real a){
+    if (a <= 10) then {
+        a++;
+    } else {
+        if (a <= 20) then {
+            a = a + 2;
+        } else {
+            if (a <= 30) then {
+                a = a + 3;
+            }
+        }
+    }
+    return a;
+}
 
-a && b*2 
-
-| |! b-- <== d
-
-a >>=10+20/&&100
+procedure aumentaNum (int a){
+    a = a + 20;
+}

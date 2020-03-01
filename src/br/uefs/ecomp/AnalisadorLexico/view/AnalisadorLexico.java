@@ -41,7 +41,7 @@ public class AnalisadorLexico {
                 
                 controller.analiseArq(arq);
                 
-                iterator = controller.iteratorTokens();
+                iterator = controller.listTokens().iterator();
                 w += tokensValidos(iterator);
                 
                 iteratorErr = controller.iteratorErros();
@@ -66,13 +66,12 @@ public class AnalisadorLexico {
         } catch (IOException e) {
              System.err.printf("Erro na abertura do arquivo: %s.\n",e.getMessage());
         }
-        
     }
     
     public static void writeOutput(String token, int count) 
         throws IOException {
         
-        Path path = Paths.get("output\\saida" + count + ".txt");
+        Path path = Paths.get("output-lexico\\saida" + count + ".txt");
         
         byte[] strToBytes = token.getBytes();
         

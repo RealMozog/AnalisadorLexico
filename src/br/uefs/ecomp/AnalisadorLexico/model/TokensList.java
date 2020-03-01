@@ -1,6 +1,5 @@
 package br.uefs.ecomp.AnalisadorLexico.model;
 
-import br.uefs.ecomp.AnalisadorLexico.model.Token;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;

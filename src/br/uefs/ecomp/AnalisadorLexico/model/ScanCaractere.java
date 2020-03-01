@@ -7,7 +7,7 @@ import java.util.List;
  * @author Alessandro Costa
  */
 public class ScanCaractere {
-    private final String letras = "abcdefghijklmnopkrstuvxzABCDEFGHIJKLMOPQRSTUVXZ";
+    private final String letras = "abcdefghijklmnopkrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWYXZ";
     private final String digito = "1234567890";
     private final String[] palavras_reservadas;
     private final String op_aritmetico = "+-*/";

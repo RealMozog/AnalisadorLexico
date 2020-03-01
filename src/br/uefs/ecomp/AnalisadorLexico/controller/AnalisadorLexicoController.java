@@ -5,6 +5,7 @@ import br.uefs.ecomp.AnalisadorLexico.model.TokenError;
 import br.uefs.ecomp.AnalisadorLexico.model.TokensGenerator;
 import br.uefs.ecomp.AnalisadorLexico.model.TokenListHandler;
 import java.util.Iterator;
+import java.util.List;
 /**
  *
  * @author Alessandro Costa
@@ -17,13 +18,11 @@ public class AnalisadorLexicoController {
         this.automato = new TokensGenerator(arq);
         
         
-        tokens = this.automato.stateZero(this.automato.nextChar());
+        this.tokens = this.automato.stateZero(this.automato.nextChar());
     }
     
-    public Iterator<Token> iteratorTokens (){
-        Iterator<Token> tokensIterator = tokens.getTokens().pegarTodos().iterator();
-        
-        return tokensIterator;
+    public List<Token> listTokens (){  
+        return this.tokens.getTokens().pegarTodos();
     }
     
     public Iterator<TokenError> iteratorErros(){

@@ -1,7 +1,5 @@
 package br.uefs.ecomp.AnalisadorLexico.model;
 
-import br.uefs.ecomp.AnalisadorLexico.model.TokensErrorList;
-import br.uefs.ecomp.AnalisadorLexico.model.TokensList;
 /**
  *
  * @author Alessandro Costa
